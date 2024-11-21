@@ -1,5 +1,8 @@
-input = createFileInput(handleFile);
-input.position(30, 180);
+
+function setup(){
+  input = createFileInput(handleFile);
+  input.position(30, 180);
+}
 
 function handleFile(file) {
     //allows images to be uploaded from the computer and saves them to the image variable
