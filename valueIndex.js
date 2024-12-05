@@ -1,3 +1,4 @@
+import p5 from 'p5'
 //Image Fractalize Tool
 //Oliver Nickerson
 //This project converts any uploaded image to an abstracted geometric version. It uses multiple nested for loops to access every pixel's grayscale value and creates averages over a specified range to then create the corresponding geometric shape. Besides upload functionality, the user can also download the created image. The UI primarily rests on button objects which create arrays. This allows the user to type in the exact values they want, even using backspace if needed. Efforts were made to make the UI barebones, but satisfyingly functional. There are also user friendly additions such as the automatic ratio button which preserves the original image sizing. The fractalizing process can sometimes take a while, especially at large scale, but the code itself is simplified as much as possible.
