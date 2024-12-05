@@ -5,12 +5,16 @@
 
 let img;
 let grab;
-let rollingsum = 0;
+let rollingsum0 = 0;
+let rollingsum1 = 0;
+let rollingsum2 = 0;
+let allValues = []
 let resox;
 let resoy;
 let pixsize;
 let done = 2;
 let input;
+let colored
 
 function setup() {
 //creates objects and triggers the UI setup
@@ -68,7 +72,7 @@ function menu(){
   //creates file upload point
   if(done === 2){
   input = createFileInput(handleFile);
-  input.position(30, 180);
+  input.position(35, 185);
   }
   //resets variables
   done = 0;
@@ -265,58 +269,26 @@ text(reso2.value.join(''),225,100);
 }
 
 function fractalize() {
-//converts the uploaded image to geometric art by creating an average of the grayscale value of the pixels and replacing those with appropriate geometric shapes
-filter(GRAY);
-loadPixels();
-done = 2;
-  for (let w = 0; w < resox; w += pixsize) {
-    for (let h = 0; h < resoy; h += pixsize) {
-      for (let x = 0; x < pixsize; x++){
-        for(let y = 0; y < pixsize; y++){
-          grab = get(w+x, h+y);
-          rollingsum = rollingsum + grab[1];
+    colorMode(RGB);
+    loadPixels();
+    done = 2;
+      for (let w = 0; w < resox; w += pixsize) {
+        for (let h = 0; h < resoy; h += pixsize) {
+          for (let x = 0; x < pixsize; x++){
+            for(let y = 0; y < pixsize; y++){
+              grab = get(w+x, h+y);
+              rollingsum0 = rollingsum0 + grab[0];
+              rollingsum1 = rollingsum1 + grab[1];
+              rollingsum2 = rollingsum2 + grab[2];
+            }
+          }
+    colored = color(round(rollingsum0 / (pixsize * pixsize)),round(rollingsum1 / (pixsize * pixsize)),round(rollingsum2 / (pixsize * pixsize)))
+    allValues.push(colored);
+    rollingsum0 = 0;
+    rollingsum1 = 0;
+    rollingsum2 = 0;
         }
       }
-avg = rollingsum / (pixsize * pixsize)
-if(avg > 200){
-noStroke();
-fill(255);
-rect(w,h,pixsize,pixsize);
-}else if(avg > 150 && avg <= 200){
-noStroke();
-fill(0);
-rect(w,h,pixsize,pixsize);
-fill(255);
-stroke(255);
-strokeWeight(1);
-rect(w+1,h+1,pixsize-2,pixsize-2);
-}else if(avg > 100 && avg <= 150){
-noStroke();
-fill(0);
-rect(w,h,pixsize,pixsize);
-fill(255);
-stroke(255);
-strokeWeight(1);
-rect(w+1,h+1,pixsize-2,pixsize-2);
-stroke(0);
-line(w+pixsize/2,h+0.5,w+pixsize/2,h+pixsize-0.5);
-}else if(avg > 50 && avg <= 100){
-noStroke();
-fill(0);
-rect(w,h,pixsize,pixsize);
-fill(255);
-stroke(255);
-strokeWeight(1);
-rect(w+1,h+1,pixsize-2,pixsize-2);
-stroke(0);
-line(w+pixsize/2,h+0.5,w+pixsize/2,h+pixsize-0.5);
-line(w+0.5,h+pixsize/2,w+pixsize-0.5,h+pixsize/2);
-}else if(avg <= 50){
-noStroke();
-fill(0);
-rect(w,h,pixsize,pixsize);
-}
-rollingsum = 0;
+  print(allValues);
+  allValues = [];
     }
-  }
-}
