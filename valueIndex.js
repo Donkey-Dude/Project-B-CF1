@@ -18,6 +18,7 @@ let input;
 let colored
 let tempVar = 120;
 let nLength = 60;
+let tempoAVG = 0
 // Melody Object for C Major
 let melody = {
   name: 'C Major Scale',
@@ -324,8 +325,12 @@ function fractalize() {
   print(allValues);
   for(let x = 0; x < allValues.length; x++){
   melody.notesIndex.push(round(map(hue(allValues[x]),0,360,1,9)));
+  tempoAVG += lightness(allValues[x]);
   }
+  melody.tempo = map(tempoAVG/allValues.length,0,100,60,360);
+  tempoAVG = 0;
   print(melody.notesIndex);
+  print(melody.tempo);
   allValues = [];
     }
     // Starts playing the note.
