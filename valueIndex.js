@@ -1,4 +1,4 @@
-import p5 from 'p5'
+
 //Image Fractalize Tool
 //Oliver Nickerson
 //This project converts any uploaded image to an abstracted geometric version. It uses multiple nested for loops to access every pixel's grayscale value and creates averages over a specified range to then create the corresponding geometric shape. Besides upload functionality, the user can also download the created image. The UI primarily rests on button objects which create arrays. This allows the user to type in the exact values they want, even using backspace if needed. Efforts were made to make the UI barebones, but satisfyingly functional. There are also user friendly additions such as the automatic ratio button which preserves the original image sizing. The fractalizing process can sometimes take a while, especially at large scale, but the code itself is simplified as much as possible.
@@ -16,14 +16,14 @@ let pixsize;
 let done = 2;
 let input;
 let colored
-let tempoVar = 120;
+let tempVar = 120;
 let nLength = 60;
 // Melody Object for C Major
 let melody = {
   name: 'C Major Scale',
 // This index determines what notes get played and in what order. Each is associated with a frequency in the frequencies array.
   notesIndex: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  tempo: tempoVar
+  tempo: tempVar
 };
 
 // Calculate duration of each note in seconds.
@@ -74,7 +74,7 @@ reso2.clicked();
 pixs.clicked();
 convertClicked();
 lockClicked();
-play();
+//play();
 }
 
 function draw(){
