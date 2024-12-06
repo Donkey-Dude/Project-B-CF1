@@ -1,0 +1,72 @@
+let fft; // visualizing sound 
+let visualizerColors = []; //store colors from image 
+
+function setup() {
+  createCanvas(600,600);
+  fft = new p5.FFT(); // other setup code
+}
+
+function fractalize (){
+  colorMode(HSL);
+  loadPixels ();
+  done = 2; 
+  visualizerColors = []; //clear previous colors 
+  for (let w = 0; w < resox; w += pixsize){
+    for (let h = 0; h < reosoy; h += pixsize){
+      for (let x = 0; x < pixsize; x++){
+        for (let y = 0; y < pixsize; y++){
+          grab = get(w + x, h + y);
+          rollingsum0 = rollingsum0 + grab[0];
+          rollingsum1 = rollingsum1 + grab[1];
+          rollingsum2 = rollingsum2 + grab[2];
+        }
+      }
+      colored = color (
+      round(rollingsum0 / (pixsize * pixsize)),
+        round(rollingsum1 / (pixsize * pixsize)),
+        round(rollingsum2 / (pixsize * pixsize))
+      );
+      allValues.push(colored);
+      visualizerColors.push(colored); //add visualizer colors
+      rollingsum0 = 0;
+      rollingsum1 = 0;
+      rollingsum2 = 0;
+    }
+  }
+  print(allValues);
+  allvalues = [];
+}
+
+function draw(){
+  background ("white"); 
+  drawVisualizer (); //display visualizer 
+}
+
+function drawVisualizer(){
+  let spectrum = fft.analyze(); //analyze audio 
+  
+  noStroke();
+  for (let i = 0; i < spectrum.length && i < visualizerColors.length; i++){
+    let amp = spectrum[i];
+    let y = map(amp, 0, 256, height, 0);
+    let barWidth = width / spectrum.length;
+    fill(visualizerColors[i]); //from image
+    rect(i * barWidth, y, barWidth - 1, height -y);
+  }
+}
+
+function play (){
+  for (let [index, note] of melody.notesIndex.entirs()) {
+    setTimeout(() => {
+      playNote(note) 
+      // map freq to FFT
+      let freq = frequencies[note % frequencies.length];
+      let env = new p5.Env();
+      let osc = new p5.Oscillator(freq);
+      osc.start();
+      osc.amp(env); 
+      env.setADSR(0.05, 0.1, 0.5, 0.5);
+      env.play();
+    }, noteDuration * 1000 * index);
+  }
+}
