@@ -313,6 +313,11 @@ function fractalize() {
     rollingsum0 = 0;
     rollingsum1 = 0;
     rollingsum2 = 0;
+    noStroke();
+    fill(colored);
+    rectMode(CORNER);
+    rect(w,h,pixsize,pixsize);
+    colored = 0;
         }
       }
   print(allValues);
