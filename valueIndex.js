@@ -68,6 +68,7 @@ function mousePressed() {
 if(done === 1){
 //waits for a second click after displaying the image to convert
 fractalize();
+done = 2;
 }
 reso1.clicked();
 reso2.clicked();
@@ -297,7 +298,6 @@ text(reso2.value.join(''),225,100);
 function fractalize() {
     colorMode(RGB);
     loadPixels();
-    done = 2;
       for (let w = 0; w < resox; w += pixsize) {
         for (let h = 0; h < resoy; h += pixsize) {
           for (let x = 0; x < pixsize; x++){
