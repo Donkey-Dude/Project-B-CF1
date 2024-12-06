@@ -296,6 +296,7 @@ text(reso2.value.join(''),225,100);
 }
 
 function fractalize() {
+    melody.notesIndex = [];
     colorMode(RGB);
     loadPixels();
       for (let w = 0; w < resox; w += pixsize) {
