@@ -22,7 +22,7 @@ let nLength = 60;
 let melody = {
   name: 'C Major Scale',
 // This index determines what notes get played and in what order. Each is associated with a frequency in the frequencies array.
-  notesIndex: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  notesIndex: [],
   tempo: tempVar
 };
 
@@ -198,63 +198,50 @@ function handleFile(file) {
 }
 
 class numBox {
-//number entry boxes for the resolution and pixel size inputs
-  constructor(x,y){
-this.x = x;
-this.y = y;
-this.value = []
-stroke(1);
-fill(255);
-rect(x,y,100,50);
+  //number entry boxes for the resolution and pixel size inputs
+    constructor(x,y){
+  this.x = x;
+  this.y = y;
+  this.value = []
+    }
+  clicked(){
+  //updates click status to allow for typing and blinking
+  if(done === 0){
+  if(mouseX >= this.x && mouseX <= this.x+100 && mouseY >= this.y && mouseY <= this.y+50){
+  this.type = 1;
+  } else {
+  this.type = 0;
   }
-clicked(){
-//updates click status to allow for typing and blinking
-if(done === 0){
-if(mouseX >= this.x && mouseX <= this.x+100 && mouseY >= this.y && mouseY <= this.y+50){
-fill(235);
-this.type = 1;
-} else {
-fill(255);
-this.type = 0;
-}
-strokeWeight(1);
-stroke(0);
-rect(this.x,this.y,100,50);  
-fill(0);
-text(this.value.join(''),this.x+50,this.y+25);
-}
-}
-blink(){
-//makes the cursor blink when the box is selected
-if(this.type ===1){
-strokeWeight(1);
-stroke(0);
-if(frameCount % 40 === 0){
-line(this.x+50,this.y,this.x+50,this.y+50);
-}else if(frameCount % 40 === 20){
-fill(235);
-rect(this.x,this.y,100,50);
-fill(0);
-text(this.value.join(''),this.x+50,this.y+25);
-}
-}
-}
-typing(){
-//allows the user to type in the boxes when selected
-//uses arrays to store values
-if(this.type ===1){
-if(keyCode >= 48 && keyCode <= 57){
-this.value.push(key);
-}else if(keyCode === 8){
-this.value.pop();
-}
-fill(235);
-rect(this.x,this.y,100,50);
-fill(0);
-text(this.value.join(''),this.x+50,this.y+25);
-}
-}
-}
+  }
+  }
+  blink(){
+  if(done === 0){
+  //makes the cursor blink when the box is selected
+  if(this.type ===1){
+  fill(235);
+  }else{
+  fill(255);
+  }
+  strokeWeight(1);
+  stroke(0);
+  rect(this.x,this.y,100,50);
+  fill(0);
+  text(this.value.join(''),this.x+50,this.y+25);
+  if(frameCount % 40 < 20 && this.type===1){
+  line(this.x+50,this.y,this.x+50,this.y+50);
+  }}}
+  typing(){
+  //allows the user to type in the boxes when selected
+  //uses arrays to store values
+  if(this.type ===1){
+  if(keyCode >= 48 && keyCode <= 57){
+  this.value.push(key);
+  }else if(keyCode === 8){
+  this.value.pop();
+  }
+  }
+  }
+  }
 
 function buttonBlink(x1,x2,y1,y2,tex){
 //makes the buttons highlight when hovered over
@@ -329,6 +316,10 @@ function fractalize() {
         }
       }
   print(allValues);
+  for(let x = 0; x < allValues.length; x++){
+  melody.notesIndex.push(round(map(hue(allValues[x]),0,360,1,9)));
+  }
+  print(melody.notesIndex);
   allValues = [];
     }
     // Starts playing the note.
