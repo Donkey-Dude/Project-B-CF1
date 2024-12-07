@@ -1,0 +1,56 @@
+let userfileinput;
+let img;
+let imgDimension = 100;
+let imgRatio = 2;
+let backgroundImage;
+
+ function preload(){
+  //backgroundImage = loadImage("backgrounder.png");
+}
+
+  function setup() {
+  createCanvas(600, 600);
+  userfileinput = createFileInput(handleFile);
+  userfileinput.position(180, 60);
+    imageMode(CENTER);
+    
+}
+
+function draw(){
+  //image(backgroundImage,300,300); //unsure how to add images that vs can use so i commented it out for now
+  background(69,0,9);
+  let txtSizer = 30;
+  let roundEdge = 10;
+  noStroke();
+  fill(255);
+  textSize(txtSizer);
+  text('How do',40,txtSizer+10);
+  text('Images', 40,txtSizer+txtSizer+10);
+  text('Sound?', 40,txtSizer+10+(txtSizer*2));
+  fill(135,37,1);
+  stroke(234,41,2);
+  rect(170,40,310,60,roundEdge); //input file
+  rect(170,120,400,400,roundEdge); //img spot
+  rect(40,120,120,400,roundEdge); //visualizer spot
+  rect(40,530,530,40,roundEdge); //notes holder
+  if(mouseX > 510 && mouseX < 570 && mouseY > 40 && mouseY < 100){
+     fill(204,70,22);
+     }
+  rect(510,40,60,60,roundEdge); //play button
+  //uploaded image
+  if (img) {
+    imgDimension = 398;
+    imgRatio = round(img.width/img.height);
+    image(img,370,320, round(imgDimension), imgDimension/imgRatio);
+  }
+}
+
+function handleFile(file) {
+    //allows images to be uploaded from the computer and saves them to the image variable
+      if(file.type === 'image') {
+        img = createImg(file.data, '');
+        img.hide();
+      }else {
+        img = null;
+      }
+    }
